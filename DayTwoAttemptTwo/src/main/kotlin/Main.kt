@@ -4,9 +4,10 @@ fun main(args: Array<String>) {
     val redRange = 12
     val greenRange = 13
     var totalPossible = 0
-
+    var gameNumber = 1
     getInput("input.txt").forEach { game ->
         println(game)
+
         val gameList = getGamesList(game)
         var pickupsPossible = 0
         gameList.forEach{pickup ->
@@ -15,9 +16,9 @@ fun main(args: Array<String>) {
             var redAmount = 0
             var greenAmount = 0
             pickup.split(',').forEach {colourDrop ->
-                blueAmount = ifColour(colourDrop,"blue")
-                redAmount = ifColour(colourDrop,"red")
-                greenAmount = ifColour(colourDrop,"green")
+                blueAmount = ifColour(colourDrop,"blue", blueAmount)
+                redAmount = ifColour(colourDrop,"red", redAmount)
+                greenAmount = ifColour(colourDrop,"green", greenAmount)
             }
             pickupsPossible = if (
                 blueAmount <= blueRange &&
@@ -39,7 +40,9 @@ fun main(args: Array<String>) {
         } else {
             totalPossible
         }
-        println(totalPossible)
+        println("Game:$gameNumber - Possible Games: $totalPossible")
+        gameNumber += 1
+        println("--------------------------------------------------------")
     }
 
     println("Final: $totalPossible")
@@ -73,9 +76,13 @@ fun getColourAmount(pickup: String, colour: String): Int{
 /*
 Function to look at the colourDrop and see if it contains the colour given
  */
-fun ifColour(colourDrop: String,colour: String): Int
+fun ifColour(colourDrop: String,colour: String, origionalNumber: Int): Int
     = if(colourDrop.lowercase().contains(colour)){
-        getColourAmount(colourDrop, colour)
+        if (getColourAmount(colourDrop, colour) > origionalNumber){
+            getColourAmount(colourDrop, colour)
+        }else{
+            origionalNumber
+        }
     } else{
-        0
+        origionalNumber
     }
