@@ -30,11 +30,25 @@ class AdventMethods {
 
     fun getSymbolCoordinates(grid: List<CharArray>): List<List<Int>> {
         var xCoordinate = 0
-        var gridCoordinates = mutableListOf<mutableListOf<Int>()>()
+        var gridCoordinates = mutableListOf(emptyList<Int>())
         grid.forEach { row ->
-            getSymbolIndexs(row)
-            gridCoordinates.
+            getSymbolIndexs(row).forEach { yCoordinate ->
+                gridCoordinates.add(listOf(xCoordinate,yCoordinate))
+            }
             xCoordinate+=1
         }
+        return gridCoordinates.drop(1)
+    }
+
+    fun getDigitCoordinates(grid: List<CharArray>): List<List<Int>> {
+        var xCoordinate = 0
+        var gridCoordinates = mutableListOf(emptyList<Int>())
+        grid.forEach { row ->
+            getDigitIndexs(row).forEach { yCoordinate ->
+                gridCoordinates.add(listOf(xCoordinate,yCoordinate))
+            }
+            xCoordinate+=1
+        }
+        return gridCoordinates.drop(1)
     }
 }

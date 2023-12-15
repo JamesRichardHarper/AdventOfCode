@@ -25,7 +25,8 @@ class DayThreeTest {
      */
     fun getDigitIndexs(){
         val result = adventMethods.getDigitIndexs(charArrayOf('.','/','4','5','.','7'))
-        assertEquals(listOf(2,3,5), result)
+        assertEquals(
+            listOf(2,3,5), result)
     }
     @Test
     /*
@@ -41,9 +42,44 @@ class DayThreeTest {
         assertEquals(
             listOf(
                 listOf(0,2),
-                listOf(0,5),
+                listOf(0,4),
                 listOf(1,1)
             ), result
+        )
+    }
+
+    @Test
+    /*
+    Given a grid system
+    When the coordinates of a digit are found
+    Then the coordinates and the number will be collected
+     */
+    fun getDigitCoordinate(){
+        val result = adventMethods.getDigitCoordinates(
+            listOf(
+                charArrayOf('.','.','*','.','/'),
+                charArrayOf('.','/','4','5','.','7')
+            )
+        )
+        assertEquals(
+            listOf(
+                listOf(1,2),
+                listOf(1,3),
+                listOf(1,5)
+            ), result
+        )
+    }
+
+    @Test
+    /*
+    Test case for finding adjacent digits in a list of coordinates
+     */
+    fun getTotalNumber() {
+        val result = adventMethods.getDigitCoordinates(
+            listOf(
+                charArrayOf('.','.','*','.','/'),
+                charArrayOf('.','/','4','5','.','7')
+            )
         )
     }
 }
