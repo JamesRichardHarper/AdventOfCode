@@ -26,7 +26,11 @@ class DayThreeTest {
     fun getDigitIndexs(){
         val result = adventMethods.getDigitIndexs(charArrayOf('.','/','4','5','.','7'))
         assertEquals(
-            listOf(2,3,5), result)
+            mapOf(
+                2 to 4,
+                3 to 5,
+                5 to 7
+            ), result)
     }
     @Test
     /*
@@ -62,24 +66,112 @@ class DayThreeTest {
             )
         )
         assertEquals(
-            listOf(
-                listOf(1,2),
-                listOf(1,3),
-                listOf(1,5)
+            mapOf(
+                listOf(1,2) to 4,
+                listOf(1,3) to 5,
+                listOf(1,5) to 7
             ), result
         )
     }
 
     @Test
     /*
-    Test case for finding adjacent digits in a list of coordinates
+    Given a digit coordinate and a list of symbol coordinate
+    When a digit is found to be adjacent to a symbol
+    Then a bool of true will be returned
+     */
+    fun getAdjacent() {
+        val result = adventMethods.isAdjacent(
+            listOf(4,2) to 5,
+            listOf(
+                listOf(0,5),
+                listOf(5,3),
+                listOf(10,10)
+            )
+        )
+        assertEquals(true,result)
+    }
+
+    @Test
+    /*
+    Given a list of symbol coordinates and a list of digit coordinates
+    When a symbol is found to be adjacent to a digit
+    Then a list of those digits will be returned
+     */
+    fun getLookup() {
+        val result = adventMethods.getMatches(
+            listOf(
+                listOf(0,5),
+                listOf(5,3),
+                listOf(10,10)
+            ),
+            mapOf(
+                listOf(1,2) to 4,
+                listOf(1,3) to 5,
+                listOf(1,5) to 7,
+                listOf(9,9) to 8,
+                listOf(8,9) to 1,
+                listOf(7,9) to 2
+            )
+        )
+        assertEquals(
+            mapOf(
+                listOf(1,5) to 7,
+                listOf(9,9) to 8
+            )
+            ,result
+        )
+    }
+
+    @Test
+    /*
+    Given a digit coordinate, and a digit coordinate list
+    When a coordinate is matched
+    Then the entire number will be returned
+     */
+    fun getConcatinated() {
+        val result = adventMethods.getNumber(
+            listOf(9,9) to 8,
+            mapOf(
+                listOf(1,2) to 4,
+                listOf(1,3) to 5,
+                listOf(1,5) to 7,
+                listOf(9,9) to 8,
+                listOf(8,9) to 1,
+                listOf(7,9) to 2
+            )
+        )
+        assertEquals(
+            218
+            ,result
+        )
+    }
+
+    @Test
+    /*
+    Given a map of coordinates to digits that were found adjacent to symbols,
+        and a secondary map containing all coordinates to digits
+    When a digit in the confirmed list is found in the total list
+    Then it will be concatenated with any numbers in a row next to it, and returned as a list
      */
     fun getTotalNumber() {
-        val result = adventMethods.getDigitCoordinates(
-            listOf(
-                charArrayOf('.','.','*','.','/'),
-                charArrayOf('.','/','4','5','.','7')
+        val result = adventMethods.getNumberList(
+            mapOf(
+                listOf(1,5) to 7,
+                listOf(9,9) to 8
+            ),
+            mapOf(
+                listOf(1,2) to 4,
+                listOf(1,3) to 5,
+                listOf(1,5) to 7,
+                listOf(9,9) to 8,
+                listOf(8,9) to 1,
+                listOf(7,9) to 2
             )
+
+        )
+        assertEquals(
+            listOf(7, 218), result
         )
     }
 }
