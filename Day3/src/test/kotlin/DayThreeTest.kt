@@ -125,24 +125,33 @@ class DayThreeTest {
 
     @Test
     /*
+    OLD
     Given a digit coordinate, and a digit coordinate list
     When a coordinate is matched
     Then the entire number will be returned
+    ----
+    Given a digit coordinate, and a digit coordinate list
+    When a coordinate is matched
+    Then the coordinates of that number will be returned
      */
     fun getConcatinated() {
-        val result = adventMethods.getNumber(
+        val result = adventMethods.getNumberCoordinates(
             listOf(9,9) to 8,
             mapOf(
                 listOf(1,2) to 4,
                 listOf(1,3) to 5,
                 listOf(1,5) to 7,
-                listOf(9,9) to 8,
+                listOf(7,9) to 2,
                 listOf(8,9) to 1,
-                listOf(7,9) to 2
+                listOf(9,9) to 8
             )
         )
         assertEquals(
-            218
+            mapOf(
+                listOf(7,9) to 2,
+                listOf(8,9) to 1,
+                listOf(9,9) to 8
+            )
             ,result
         )
     }
@@ -154,24 +163,60 @@ class DayThreeTest {
     When a digit in the confirmed list is found in the total list
     Then it will be concatenated with any numbers in a row next to it, and returned as a list
      */
-    fun getTotalNumber() {
+    fun getFinishedNumberCoordinates() {
         val result = adventMethods.getNumberList(
             mapOf(
                 listOf(1,5) to 7,
+                listOf(8,9) to 1,
                 listOf(9,9) to 8
             ),
             mapOf(
                 listOf(1,2) to 4,
                 listOf(1,3) to 5,
                 listOf(1,5) to 7,
-                listOf(9,9) to 8,
+                listOf(7,9) to 2,
                 listOf(8,9) to 1,
-                listOf(7,9) to 2
+                listOf(9,9) to 8
             )
 
         )
         assertEquals(
-            listOf(7, 218), result
+            listOf(
+                mapOf(
+                    listOf(1,5) to 7
+                ),
+                mapOf(
+                    listOf(7,9) to 2,
+                    listOf(8,9) to 1,
+                    listOf(9,9) to 8
+                )
+            ), result
+        )
+    }
+
+    @Test
+    /*
+    Given a distinct list of maps containing the coordinates of a whole number
+    When each full number is converted into an Int
+    Then the full given number of the list shall be returned
+     */
+    fun getTotalNumber() {
+        val result = adventMethods.getNumberFromDistinct(
+            listOf(
+                mapOf(
+                    listOf(1,5) to 7
+                ),
+                mapOf(
+                    listOf(7,9) to 2,
+                    listOf(8,9) to 1,
+                    listOf(9,9) to 8
+                )
+            )
+        )
+        assertEquals(
+            listOf(
+                7, 218
+            ), result
         )
     }
 }

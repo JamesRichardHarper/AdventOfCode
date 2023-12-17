@@ -90,21 +90,60 @@ class AdventMethods {
         }
     }
 
-    fun getNumberList(confirmedDigits: Map<List<Int>, Int>, totalMap: Map<List<Int>, Int>): List<Int> {
-
-        return listOf(7, 218)
+    fun getNumberList(confirmedDigits: Map<List<Int>, Int>, totalMap: Map<List<Int>, Int>): List<Map<List<Int>, Int>>{
+        return confirmedDigits.map {pair ->
+            getNumberCoordinates(pair.toPair(), totalMap)
+        }.distinct()
     }
 
-    fun getNumber(confirmedDigit: Pair<List<Int>, Int>, totalMap: Map<List<Int>, Int>): Int {
-        val xCoOrd = confirmedDigit.first[0]
-        val inLineForward = { index: Int, comparator: Int ->  index+1 == comparator}
-
-        totalMap.filter { digits ->
-            digits.key[1] == confirmedDigit.first[1]
-        }.filter { sameXDigits ->
-            inLineForward()
-
+    fun getNumberCoordinates(confirmedDigit: Pair<List<Int>, Int>, totalMap: Map<List<Int>, Int>): Map<List<Int>, Int> {
+        var confirmedX = confirmedDigit.first[0]
+        val confirmedY = confirmedDigit.first[1]
+        val filteredKeys = totalMap.keys.filter { currentCoord ->
+            currentCoord[1] == confirmedY
+        }.sortedBy { coOrds ->
+            coOrds[0]
         }
-        return 218
+
+        val highestIndex = filteredKeys.filter { coOrds ->
+            coOrds[0] >= confirmedDigit.first[0]
+        }.takeWhile { coOrds ->
+            if(coOrds[0] == confirmedX){
+                confirmedX+=1
+                true
+            }else{
+                false
+            }
+        }.last()[0]
+
+        confirmedX = confirmedDigit.first[0]
+
+        val lowestIndex = filteredKeys.filter { coOrds ->
+            coOrds[0] <= confirmedDigit.first[0]
+        }.takeLastWhile { coOrds ->
+            if(coOrds[0] == confirmedX){
+                confirmedX-=1
+                true
+            }else{
+                false
+            }
+        }.first()[0]
+
+        println("""
+            |Pair: $confirmedDigit
+            |Lowest: $lowestIndex
+            |Highest: $highestIndex
+        """.trimMargin())
+
+        return totalMap.filter { coOrd ->
+            coOrd.key[0] in (lowestIndex)..<highestIndex + 1 &&
+                    coOrd.key[1] == confirmedY
+        }
+    }
+
+    fun getNumberFromDistinct(distinctDigitCoordinates: List<Map<List<Int>, Int>>): List<Int> {
+        return distinctDigitCoordinates.map { confirmedNumber ->
+            confirmedNumber.values.joinToString(separator = "").toInt()
+        }
     }
 }

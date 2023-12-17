@@ -4,11 +4,18 @@ fun main(args: Array<String>) {
         it.toCharArray()
     }
     var adventMethods = AdventMethods()
-    val coOrds = adventMethods.getSymbolCoordinates(formattedInput)
-    coOrds.forEach {
+    val symbols = adventMethods.getSymbolCoordinates(formattedInput)
+    val digits = adventMethods.getDigitCoordinates(formattedInput)
+    val matches = adventMethods.getMatches(symbols,digits)
+    val adjacentNumberList = adventMethods.getNumberList(matches,digits)
+    val finalNumber = adventMethods.getNumberFromDistinct(adjacentNumberList)
+    matches.forEach {
         println(it)
     }
-
+    adjacentNumberList.forEach {
+        println(it)
+    }
+    println(finalNumber)
 }
 
 /*
