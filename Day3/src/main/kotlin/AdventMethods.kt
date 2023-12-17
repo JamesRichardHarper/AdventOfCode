@@ -37,13 +37,13 @@ class AdventMethods {
     }
 
     fun getSymbolCoordinates(grid: List<CharArray>): List<List<Int>> {
-        var xCoordinate = 0
+        var yCoordinate = 0
         var gridCoordinates = mutableListOf(emptyList<Int>())
         grid.forEach { row ->
-            getSymbolIndexs(row).forEach { yCoordinate ->
+            getSymbolIndexs(row).forEach { xCoordinate ->
                 gridCoordinates.add(listOf(xCoordinate,yCoordinate))
             }
-            xCoordinate+=1
+            yCoordinate+=1
         }
         return gridCoordinates.drop(1)
     }
@@ -60,7 +60,7 @@ class AdventMethods {
 //        return gridCoordinates.drop(1)
         return grid.mapIndexed{index, row ->
             getDigitIndexs(row).map { digit ->
-                listOf(index,digit.key) to digit.value
+                listOf(digit.key,index) to digit.value
             }
         }.flatten().toMap()
     }

@@ -8,10 +8,16 @@ fun main(args: Array<String>) {
     val digits = adventMethods.getDigitCoordinates(formattedInput)
     val matches = adventMethods.getMatches(symbols,digits)
     val adjacentNumberList = adventMethods.getNumberList(matches,digits)
-    val finalNumber = adventMethods.getNumberFromDistinct(adjacentNumberList)
-    matches.forEach {
-        println(it)
-    }
+    val finalNumber = adventMethods.getNumberFromDistinct(adjacentNumberList).sum()
+//    symbols.forEach {
+//        println(it)
+//    }
+//    digits.forEach {
+//        println(it)
+//    }
+//    matches.forEach {
+//        println(it)
+//    }
     adjacentNumberList.forEach {
         println(it)
     }
